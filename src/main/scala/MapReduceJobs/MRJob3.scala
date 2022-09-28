@@ -12,43 +12,36 @@ import scala.jdk.CollectionConverters.*
 import HelperUtils.CreateLogger
 import org.slf4j.Logger
 
+object MRJob3 {
 
-object MRJob1 {
-  val logger : Logger = CreateLogger(classOf[TimeTypeMapper])
-  class TimeTypeMapper extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
+  class MessageLevelMapper extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
     private final val one = new IntWritable(1)
     private val word = new Text()
-    override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-      logger.info("*******************Entering TimeTypeMapper****************")
-      val readAndSplit = value.toString.split(" ")
-      val timeIntervalVal = readAndSplit(0)
-      val messageLevel = readAndSplit(2)
-      val mapKey = timeIntervalVal.slice(0,8) +"_"+ messageLevel
-      word.set(mapKey)
-      output.collect(word, one)
-      logger.info("*******************Exiting TimeTypeMapper****************")
 
-  class TimeTypeReducer extends MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable]:
-    val logger : Logger = CreateLogger(classOf[TimeTypeReducer])
+    override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
+      val readAndSplit = value.toString.split(" ")
+      val messageLevel = readAndSplit(2)
+      word.set(messageLevel)
+      output.collect(word, one)
+
+  class MessageLevelReducer extends  MapReduceBase with Reducer[Text, IntWritable, Text, IntWritable]:
     override def reduce(key: Text, values: util.Iterator[IntWritable], output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
-      logger.info("*******************Entering TimeTypeReducer****************")
       val sum = values.asScala.reduce((valueOne, valueTwo) => new IntWritable(valueOne.get() + valueTwo.get()))
       output.collect(key, new IntWritable(sum.get()))
-      logger.info("*******************Exiting TimeTypeReducer****************")
 
-  def main(args: Array[String]):Unit =
-    logger.info("*******************Entering MRJob1Main****************")
-    val conf : JobConf = new JobConf(this.getClass)
-    conf.setJobName("TimeType")
+  def main(args: Array[String]): Unit =
+
+    val conf: JobConf = new JobConf(this.getClass)
+    conf.setJobName("MessageLevelCounter")
 
     conf.set("fs.defaultFS", "local")
     conf.set("mapreduce.job.maps", "1")
     conf.set("mapreduce.job.reduces", "1")
 
-    conf.setMapperClass(classOf[TimeTypeMapper])
+    conf.setMapperClass(classOf[MessageLevelMapper])
 
-    conf.setCombinerClass(classOf[TimeTypeReducer])
-    conf.setReducerClass(classOf[TimeTypeReducer])
+    conf.setCombinerClass(classOf[MessageLevelReducer])
+    conf.setReducerClass(classOf[MessageLevelReducer])
 
     conf.setOutputKeyClass(classOf[Text])
     conf.setOutputValueClass(classOf[IntWritable])
@@ -57,6 +50,5 @@ object MRJob1 {
     FileOutputFormat.setOutputPath(conf, new Path(args(1)))
 
     JobClient.runJob(conf)
-    logger.info("*******************Exiting MRJob1Main****************")
 
 }
