@@ -42,8 +42,8 @@ object MRJob2 {
 
   class SortCountMapper extends MapReduceBase with Mapper[LongWritable, Text, IntWritable,Text]:
     override def map(key: LongWritable, value: Text, output: OutputCollector[IntWritable, Text], reporter: Reporter): Unit =
-      logger.info("**********CurrVal******" + value.toString())
-      val readAndSplit = value.toString().split("\t")
+      logger.info("**********CurrVal******" + value.toString)
+      val readAndSplit = value.toString.split("\t")
       val timestamp = new Text(readAndSplit(0))
       val countVal = new IntWritable(readAndSplit(1).toInt * -1)
       output.collect(countVal, timestamp)
