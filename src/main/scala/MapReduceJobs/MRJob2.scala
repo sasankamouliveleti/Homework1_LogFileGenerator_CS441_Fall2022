@@ -9,7 +9,7 @@ import org.apache.hadoop.mapred.*
 import java.io.IOException
 import java.util
 import scala.jdk.CollectionConverters.*
-import HelperUtils.CreateLogger
+import HelperUtils.{CreateLogger, Constants}
 import org.slf4j.Logger
 
 
@@ -21,12 +21,13 @@ object MRJob2 {
 
     override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       logger.info("*******************Entering ErrorCounterMapper****************")
-
       val readAndSplit = value.toString.split(" ")
       val timeIntervalVal = readAndSplit(0)
       val messageLevel = readAndSplit(2)
       if(messageLevel == "ERROR"){
-        word.set(timeIntervalVal.slice(0,8))
+        val mapkey = Constants.generateTimeInterval(timeIntervalVal.split(":")) + " " + messageLevel
+        //word.set(timeIntervalVal.slice(0,8))
+        word.set(mapkey)
         output.collect(word, one)
       }
       logger.info("*******************Exiting ErrorCounterMapper****************")
@@ -39,7 +40,7 @@ object MRJob2 {
       output.collect(key, new IntWritable(sum.get()))
       logger.info("*******************Exiting ErrorCounterReducer****************")
 
-
+  /*http://codingjunkie.net/secondary-sort*/
   class SortCountMapper extends MapReduceBase with Mapper[LongWritable, Text, IntWritable,Text]:
     override def map(key: LongWritable, value: Text, output: OutputCollector[IntWritable, Text], reporter: Reporter): Unit =
       logger.info("**********CurrVal******" + value.toString)
@@ -62,9 +63,9 @@ object MRJob2 {
     logger.info("*******************Entering MRJob2Main****************")
 
     val conf: JobConf = new JobConf(this.getClass)
-    conf.setJobName("ErrorType")
+    conf.setJobName(Constants.MRJob2)
 
-    conf.set("fs.defaultFS", "local")
+    conf.set("fs.defaultFS", "file:///")
     conf.set("mapreduce.job.maps", "1")
     conf.set("mapreduce.job.reduces", "1")
 

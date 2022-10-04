@@ -9,7 +9,8 @@ import org.apache.hadoop.mapred.*
 import java.io.IOException
 import java.util
 import scala.jdk.CollectionConverters.*
-import HelperUtils.CreateLogger
+import HelperUtils.{CreateLogger, Constants}
+import com.typesafe.config.ConfigFactory
 import org.slf4j.Logger
 
 
@@ -18,13 +19,16 @@ object MRJob1 {
   class TimeTypeMapper extends MapReduceBase with Mapper[LongWritable, Text, Text, IntWritable]:
     private final val one = new IntWritable(1)
     private val word = new Text()
+    private val config = ConfigFactory.load("application.conf").getConfig("userDefinedInputs")
     override def map(key: LongWritable, value: Text, output: OutputCollector[Text, IntWritable], reporter: Reporter): Unit =
       logger.info("*******************Entering TimeTypeMapper****************")
       val readAndSplit = value.toString.split(" ")
-      val timeIntervalVal = readAndSplit(0)
+      val logTimeStamp = readAndSplit(0)
       val messageLevel = readAndSplit(2)
-      val mapKey = timeIntervalVal.slice(0,8) +"_"+ messageLevel
-      word.set(mapKey)
+      val timeSplit = logTimeStamp.split(":")
+      logger.info("The time split is" + timeSplit(0) + timeSplit(1) + timeSplit(1))
+      val mapkey = Constants.generateTimeInterval(timeSplit) + " " + messageLevel
+      word.set(mapkey)
       output.collect(word, one)
       logger.info("*******************Exiting TimeTypeMapper****************")
 
@@ -39,12 +43,13 @@ object MRJob1 {
   def main(args: Array[String]):Unit =
     logger.info("*******************Entering MRJob1Main****************")
     val conf : JobConf = new JobConf(this.getClass)
-    conf.setJobName("TimeType")
+    conf.setJobName(Constants.MRJob1)
 
-    conf.set("fs.defaultFS", "local")
+    conf.set("fs.defaultFS", "file:///")
     conf.set("mapreduce.job.maps", "1")
     conf.set("mapreduce.job.reduces", "1")
 
+//    conf.set("mapred.textoutputformat.separator", ",")
     conf.setMapperClass(classOf[TimeTypeMapper])
 
     conf.setCombinerClass(classOf[TimeTypeReducer])

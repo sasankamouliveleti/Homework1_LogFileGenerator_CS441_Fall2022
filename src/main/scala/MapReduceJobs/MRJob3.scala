@@ -9,7 +9,7 @@ import org.apache.hadoop.mapred.*
 import java.io.IOException
 import java.util
 import scala.jdk.CollectionConverters.*
-import HelperUtils.CreateLogger
+import HelperUtils.{CreateLogger, Constants}
 import org.slf4j.Logger
 
 object MRJob3 {
@@ -32,9 +32,9 @@ object MRJob3 {
   def main(args: Array[String]): Unit =
 
     val conf: JobConf = new JobConf(this.getClass)
-    conf.setJobName("MessageLevelCounter")
+    conf.setJobName(Constants.MRJob3)
 
-    conf.set("fs.defaultFS", "local")
+    conf.set("fs.defaultFS", "file:///")
     conf.set("mapreduce.job.maps", "1")
     conf.set("mapreduce.job.reduces", "1")
 
