@@ -16,14 +16,14 @@ import com.typesafe.config.ConfigFactory
 import org.slf4j.Logger
 
 
-
 object MRMainJob {
   def main(args: Array[String]): Unit =
-    logger.info(Constants.fileSystemType + "hello")
+
     val conf: JobConf = new JobConf(this.getClass)
     conf.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
-    conf.set(Constants.noOfMappers, Constants.noOfMappersVal)
-    conf.set(Constants.noOfReducers, Constants.noOfReducersVal)
+//    conf.set(Constants.noOfMappers, Constants.noOfMappersVal)
+//    conf.set(Constants.noOfReducers, Constants.noOfReducersVal)
+
     if(args(0).toInt == 1) {
 
       logger.info("*******************Entering MRJob1Main****************")
@@ -63,8 +63,8 @@ object MRMainJob {
 
       conf1.setJobName(Constants.MRJob2_Final)
       conf1.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
-      conf1.set(Constants.noOfMappers, Constants.noOfMappersVal)
-      conf1.set(Constants.noOfReducers, Constants.noOfReducersVal)
+//      conf1.set(Constants.noOfMappers, Constants.noOfMappersVal)
+//      conf1.set(Constants.noOfReducers, Constants.noOfReducersVal)
       conf1.set("mapreduce.output.textoutputformat.separator", ",")
       conf1.setMapperClass(classOf[SortCountMapper])
       conf1.setReducerClass(classOf[SortCountReducer])
@@ -118,5 +118,4 @@ object MRMainJob {
 
       logger.info("*******************Exiting MRJob4Main****************")
     }
-
 }

@@ -30,7 +30,7 @@ object MRJob2 {
             val readAndSplit = value.toString.split(" ")
             val timeIntervalVal = readAndSplit(0)
             val messageLevel = readAndSplit(2)
-            if (messageLevel == "ERROR") {
+            if (messageLevel == Constants.messageLevelError) {
               val mapkey = Constants.generateTimeInterval(timeIntervalVal.split(":")) + " " + messageLevel
               word.set(mapkey)
               output.collect(word, one)

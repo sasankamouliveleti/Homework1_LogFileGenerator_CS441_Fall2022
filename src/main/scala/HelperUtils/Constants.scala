@@ -29,20 +29,37 @@ object Constants {
   val mainPattern: Regex = Constants.config.getString("patternToSearch").r
   val definedTimeInterval: Int = config.getInt("timeInterval")
 
+  def convertToTimeStampInterval(timeValue: String): String ={
+    val split = timeValue.split(":")
+    if(split(0).length == 1){
+      if(split(1).length == 1){
+        "0"+split(0) + ":" + "0" + split(1)
+      } else{
+        "0"+split(0) + ":" + split(1)
+      }
+    }else {
+      if (split(1).length == 1) {
+        split(0) + ":" + "0" + split(1)
+      } else {
+        split(0) + ":" + split(1)
+      }
+    }
+  }
+
   def generateTimeInterval(timeSplit: Array[String]): String = {
-    logger.debug("the time interval set by user is" + definedTimeInterval.toString)
+    logger.debug("the time interval set by user is " + definedTimeInterval.toString)
     val hours = timeSplit(0).toInt
     val lowerBoundMin = (timeSplit(1).toInt / definedTimeInterval) * definedTimeInterval
     val upperBoundMin = lowerBoundMin + definedTimeInterval
     if(lowerBoundMin == 0 && upperBoundMin == 60){
-      (hours%24).toString + ":" + "00" + " " + ((hours + 1)%24).toString + ":" + "00"
+      convertToTimeStampInterval((hours%24).toString + ":" + "00") + " " + convertToTimeStampInterval(((hours + 1)%24).toString + ":" + "00")
     }
     else if (upperBoundMin == 60) {
-      (hours%24).toString + ":" + lowerBoundMin.toString + " " + ((hours + 1)%24).toString + ":" + "00"
+      convertToTimeStampInterval((hours%24).toString + ":" + lowerBoundMin.toString) + " " + convertToTimeStampInterval(((hours + 1)%24).toString + ":" + "00")
     } else if (upperBoundMin > 60) {
-      (hours%24).toString + ":" + lowerBoundMin.toString + " " + ((hours + 1)%24).toString + ":" + (upperBoundMin - 60).toString
+      convertToTimeStampInterval((hours%24).toString + ":" + lowerBoundMin.toString) + " " + convertToTimeStampInterval(((hours + 1)%24).toString + ":" + (upperBoundMin - 60).toString)
     } else {
-      (hours%24).toString + ":" + lowerBoundMin.toString + " " + (hours%24).toString + ":" + upperBoundMin.toString
+      convertToTimeStampInterval((hours%24).toString + ":" + lowerBoundMin.toString) + " " + convertToTimeStampInterval((hours%24).toString + ":" + upperBoundMin.toString)
     }
   }
 }

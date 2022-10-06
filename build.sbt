@@ -1,4 +1,4 @@
-name := "LogFileGenerator"
+name := "LogFileMap-Reduce"
 
 version := "0.1"
 
