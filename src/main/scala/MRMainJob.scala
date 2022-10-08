@@ -25,7 +25,7 @@ object MRMainJob {
   */
   def main(args: Array[String]): Unit =
     val conf: JobConf = new JobConf(this.getClass) /* Intialising the Job Config*/
-    //conf.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
+    conf.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
 //    conf.set(Constants.noOfMappers, Constants.noOfMappersVal)
 //    conf.set(Constants.noOfReducers, Constants.noOfReducersVal)
 
@@ -79,7 +79,7 @@ object MRMainJob {
       val conf1: JobConf = new JobConf(this.getClass)
 
       conf1.setJobName(Constants.MRJob2_Final) /* Setting the Job's name*/
-      //conf1.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
+      conf1.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
 //      conf1.set(Constants.noOfMappers, Constants.noOfMappersVal)
 //      conf1.set(Constants.noOfReducers, Constants.noOfReducersVal)
       conf1.set("mapreduce.output.textoutputformat.separator", ",") /* To generate comma separated output*/
