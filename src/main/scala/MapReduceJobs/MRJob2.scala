@@ -63,8 +63,8 @@ object MRJob2 {
 
   /*Referred http://codingjunkie.net/secondary-sort for sorting in descending order*/
   /* We know that the output of a Map Reduce is always ascending order of the key leveraging this idea 
-   in the Map we produce the key value as (-4:hh:mm hh:mm ERROR) this gives ascending order output for key value
-   as example -5:hh:mm hh:mm ERROR, -3: hh:mm hh:mm ERROR, 0:hh:mm hh:mm ERROR
+   in the Map we produce the key value as (-4:hh:mm hh:mm ERROR) this gives ascending order output, the key value
+   as an example would be-5:hh:mm hh:mm ERROR, -3: hh:mm hh:mm ERROR, 0:hh:mm hh:mm ERROR
    */
   class SortCountMapper extends MapReduceBase with Mapper[LongWritable, Text, IntWritable,Text]:
     override def map(key: LongWritable, value: Text, output: OutputCollector[IntWritable, Text], reporter: Reporter): Unit =
