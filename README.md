@@ -86,10 +86,10 @@ Here the MRJobNumber can be
 <p>To perform this task run the following command</p>
 
 ```
-1hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 1 <Input Log path> <Output Log path>  
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 1 <Input Log path> <Output Log path>  
 ```
 
-<p>Working of this task</p>
+<p>Implementation of this task</p>
 <ol>
 <li>Once the user runs the above command the main method determines which functionality to run and starts the corresponding Map Reduce Job. Firstly the program fetches the time interval and regex pattern from the application config file.</li>
 <li>The Mapper class here is <b>TimeTypeMapper</b> which extends MapReduceBase.</li>
@@ -99,7 +99,7 @@ Here the MRJobNumber can be
 <li>The Reducer class here is <b>TimeTypeReducer</b></li>
 <li>The Goal of this Reducer is to take the TypeTypeReducer mapper key values of format (hh:mm hh:mm message level):[1,1,1,1]
   and reduce them to (hh:mm hh:mm message level):4 by summing the values iterable</li>
-<li>The output for this task with an interval of 1 is below</li>
+<li>The output for this task with an interval of 1 and user regex ".*" is below</li>
 
 ```
 15:35 15:36 INFO,1
@@ -136,6 +136,90 @@ Here the MRJobNumber can be
 ```
 </ol>
 
+<h3>Task 2 - To compute time intervals sorted in the descending order that contained most log messages of the type ERROR with injected regex pattern string instances</h3>
 
+<p>To perform this task run the following command</p>
 
+```
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 2 <Input Log path> <Output Log path>  
+```
 
+<p>Implementation of this task</p>
+<ol>
+<li>Once the user runs the above command the main method determines which functionality to run and starts the corresponding Map Reduce Job. Firstly the program fetches the time interval and regex pattern from the application config file.</li>
+<li>In order to achieve the desired result I have made use of two Map Reduce tasks. The first Map Reduce gives output in ascending order, the second in descending we will see their full details below.</li>
+<li>In the first map reduce the mapper is <b>ErrorCounterMapper</b></li>
+<li>The Goal of this mapper is to produce key of type Text which is (hh:mm ERROR) and values of type Intwritable 
+  essentially 1 --- (hh:mm ERROR):1</li>
+<li>In the mapper based on the user defined time intervals and regex the log lines are read and the logs which match the regex are identified and the time start and end for these is calculated and put into a key, the value would be 1.</li>
+<li>The first reducer is <b>ErrorCounterReducer</b></li>
+<li>The second mapper is <b>SortCountMapper</b></li>
+<li>We know that the output of a Map Reduce is always ascending order of the key leveraging this idea 
+   in the Map we produce the key value as (-4:hh:mm hh:mm ERROR) this gives ascending order output, the key value
+   as example -5:hh:mm hh:mm ERROR, -3: hh:mm hh:mm ERROR, 0:hh:mm hh:mm ERROR</li>
+<li>The second reducer is <b>SortCountReducer</b></li>
+<li>This reducer takes the key as negative value and the value as time interval and message level and swaps the 
+  key values by iterating each value list for a specific key thus giving the output as descending order of error counts</li>
+<li>The output for this task with an interval of 1 and regex ".*" is below</li>
+
+```
+15:38 15:39 ERROR,2
+15:37 15:38 ERROR,1  
+```
+</ol>
+<p>Note: While running task2 there is an intermediate output folder named "outputfilename + "_ascsort"" created which is output of first map reduce and this is input for the second map reduce task</p>
+
+<h3>Task 3 - For each message type you will produce the number of the generated log messages</h3>
+
+<p>To perform this task run the following command</p>
+
+```
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 3 <Input Log path> <Output Log path>  
+```
+
+<p>Implementation of this task</p>
+<ol>
+<li>Once the user runs the above command the main method determines which functionality to run and starts the corresponding Map Reduce Job. Firstly the program fetches the time interval from the application config file.</li>
+<li>The mapper class is <b>MessageLevelMapper</b></li>
+<li>The Goal of this Mapper Class is to generate Key's of type Text which are the (Message Level)
+    and the Values of type Intwritable which here specifies 1 as we are just mapping the message level in each log line which matches the regex to 1</li>
+<li>The reducer class is <b>MessageLevelReducer</b></li>
+<li>The Goal of this Reducer is to take the MessageLevelMapper mapper key values of format (message level):[1,1,1,1]
+    and reduce them to (message level):4</li>
+<li>The output for this task with an interval of 1 is below</li>
+
+```
+DEBUG,7
+ERROR,3
+INFO,66
+WARN,28  
+```
+</ol>
+
+<h3>Task 4 - To produce the number of characters in each log message for each log message type that contain the highest number of characters in the detected instances of the designated regex pattern</h3>
+
+<p>To perform this task run the following command</p>
+
+```
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 4 <Input Log path> <Output Log path>  
+```
+
+<p>Implementation of this task</p>
+<ol>
+<li>Once the user runs the above command the main method determines which functionality to run and starts the corresponding Map Reduce Job. Firstly the program fetches the time interval and regex pattern from the application config file.</li>
+<li>The mapper class is <b>MaxLengthMapper</b></li>
+<li>The Goal of this mapper is take in a user defined regex and find all the log content which matches the regex and create a context with key value pair of 
+  type Text and Text where in the key is message level and the value is matched substring from the log content</li>
+<li>The reducer class is <b>MaxLengthReducer</b></li>
+<li>The Goal of this reducer is take the key values from mapper of type message level : matched regex substring and reduce it find the
+   longest substring in each message level which matches the regex. The output of the reducer would be 
+   message level, longest substring match, length of the substring</li>
+<li>The output for this task with an interval of 1 and regex ".*" is below</li>
+
+```
+DEBUG,1vGnsU^9ofOEJ!F'YIcjlEcJYlQL+-sO0UHnYGFCbhaTLi8x0oBs$y"'X!,H,60
+ERROR,ihu}!A2]*07}|,lc,16
+INFO,=y:wo/f;JGDxr3kYD:KMnEa=,kC5hI9oce1bg3ae1ag2J9ncg2N5oW7fq{W:|tm1u)A}GY`q;JGZ0\xG"[,82
+WARN,.0>S+>Ua\Zqk:;@m3o}_PyU{,MZ12aXX%5DlWJ<GU5V'J%d\J.0gOP8fGz;X,60
+```
+</ol>
