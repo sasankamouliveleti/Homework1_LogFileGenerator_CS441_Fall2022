@@ -7,11 +7,12 @@ import scala.util.matching.Regex
 
 object Constants {
 
-  val messageLeveInfo = "INFO"
-  val messageLevelError = "ERROR"
-  val messageLevelDebug = "DEBUG"
-  val messageLevelWarn = "WARN"
+  val messageLeveInfo = "INFO" /* Defining constants for INFO*/
+  val messageLevelError = "ERROR"/* Defining constants for ERROR*/
+  val messageLevelDebug = "DEBUG" /* Defining constants for DEBUG*/
+  val messageLevelWarn = "WARN" /* Defining constants for WARN*/
 
+  /* Defining various Job Names*/
   val MRJob1 = "MessageLevelFrequencyInTimeIntervals"
   val MRJob2 = "SortedErrorLevelLogs"
   val MRJob2_Final = "DescSortErrorTypes"
@@ -24,11 +25,18 @@ object Constants {
   val noOfReducers = "mapreduce.job.reduces"
   val noOfMappersVal = "1"
   val noOfReducersVal = "1"
-
+  
+  /* Defining place holder values*/
+  val output0 = "_ascsort"
+  val escapeTab = "\t"
+  val space = " "
+  
+  /* Getting user defined attributes from config file*/
   val config: Config = ConfigFactory.load("application.conf").getConfig("userDefinedInputs")
   val mainPattern: Regex = Constants.config.getString("patternToSearch").r
   val definedTimeInterval: Int = config.getInt("timeInterval")
 
+  /* This method converts give string if not in a time format of hh:mm to correct format*/
   def convertToTimeStampInterval(timeValue: String): String ={
     val split = timeValue.split(":")
     if(split(0).length == 1){
@@ -46,6 +54,7 @@ object Constants {
     }
   }
 
+  /* This method returns the correct time interval where a given input time has to be placed*/
   def generateTimeInterval(timeSplit: Array[String]): String = {
     logger.debug("the time interval set by user is " + definedTimeInterval.toString)
     val hours = timeSplit(0).toInt
