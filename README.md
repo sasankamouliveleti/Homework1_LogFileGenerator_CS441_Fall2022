@@ -153,6 +153,8 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 2 <Input Log path> <Outp
   essentially 1 --- (hh:mm ERROR):1</li>
 <li>In the mapper based on the user defined time intervals and regex the log lines are read and the logs which match the regex are identified and the time start and end for these is calculated and put into a key, the value would be 1.</li>
 <li>The first reducer is <b>ErrorCounterReducer</b></li>
+<li>The Goal of this reducer is it takes the ErrorCounterMapper map key values (hh:mm hh:mm Error: [1,1,1,1])  
+  and reduce them to (hh:mm hh:mm ERROR):4</li>
 <li>The second mapper is <b>SortCountMapper</b></li>
 <li>We know that the output of a Map Reduce is always ascending order of the key leveraging this idea 
    in the Map we produce the key value as (-4:hh:mm hh:mm ERROR) this gives ascending order output, the key value
