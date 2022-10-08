@@ -66,16 +66,76 @@ sbt clean compile assembly
 ```
 Once the JAR is created, let us run it in Hadoop environment. 
 
-<li>Make sure all the 4 daemons of hadoop are running and run the following command</li>
+<li>Make sure all the 4 daemons of hadoop are running and run the following command in the path of JAR file</li>
 
 ```
 hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob <MRJobNumber> <Input Log path> <Output Log path> 
 ```
 Here the MRJobNumber can be 
 <ul>
-<li>1 - Log Message Level Frequency</li>
-<li>2 - Descending Order of Error level frequencies in give time interval</li>
-<li>3 - Total count of different message levels</li>
-<li>4 - Longest matching substring for given regex</li>
+<li>1 for Log Message Level Frequency</li>
+<li>2 for Descending Order of Error level frequencies in give time interval</li>
+<li>3 for Total count of different message levels</li>
+<li>4 for Length of Longest matching substring for given regex</li>
 </ul>
 </ol>
+
+<h2>Detailed Map Reduce Tasks with their Output</h3>
+<h3>Task 1 - To show the distribution of different types of messages across predefined time intervals and injected string instances of the designated regex pattern for these log message types</h3>
+
+<p>To perform this task run the following command</p>
+
+```
+1hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 1 <Input Log path> <Output Log path>  
+```
+
+<p>Working of this task</p>
+<ol>
+<li>Once the user runs the above command the main method determines which functionality to run and starts the corresponding Map Reduce Job. Firstly the program fetches the time interval and regex pattern from the application config file.</li>
+<li>The Mapper class here is <b>TimeTypeMapper</b> which extends MapReduceBase.</li>
+<li>The Goal of this Mapper Class is to generate key's of type Text which are in the format of (hh:mm hh:mm Message Level)
+  and the Values of type Intwritable which here specifies 1 as we are just 
+  mapping each (time interval, message level) in each log line which matches the regex to 1. So key, value pair would ((hh:mm hh:mm messageLevel),1)</li>
+<li>The Reducer class here is <b>TimeTypeReducer</b></li>
+<li>The Goal of this Reducer is to take the TypeTypeReducer mapper key values of format (hh:mm hh:mm message level):[1,1,1,1]
+  and reduce them to (hh:mm hh:mm message level):4 by summing the values iterable</li>
+<li>The output for this task with an interval of 1 is below</li>
+
+```
+15:35 15:36 INFO,1
+15:35 15:36 WARN,1
+15:36 15:37 DEBUG,1
+15:36 15:37 INFO,6
+15:36 15:37 WARN,3
+15:37 15:38 DEBUG,1
+15:37 15:38 ERROR,1
+15:37 15:38 INFO,4
+15:37 15:38 WARN,3
+15:38 15:39 DEBUG,1
+15:38 15:39 ERROR,2
+15:38 15:39 INFO,7
+15:38 15:39 WARN,3
+15:39 15:40 DEBUG,1
+15:39 15:40 INFO,4
+15:39 15:40 WARN,5
+15:40 15:41 DEBUG,1
+15:40 15:41 INFO,8
+15:40 15:41 WARN,1
+15:41 15:42 INFO,5
+15:41 15:42 WARN,3
+15:42 15:43 DEBUG,1
+15:42 15:43 INFO,9
+15:42 15:43 WARN,2
+15:43 15:44 INFO,9
+15:43 15:44 WARN,2
+15:44 15:45 INFO,9
+15:44 15:45 WARN,3
+15:45 15:46 DEBUG,1
+15:45 15:46 INFO,4
+15:45 15:46 WARN,2
+```
+</ol>
+
+
+
+
