@@ -25,12 +25,12 @@ object Constants {
   val noOfReducers = "mapreduce.job.reduces"
   val noOfMappersVal = "1"
   val noOfReducersVal = "1"
-  
+
   /* Defining place holder values*/
   val output0 = "_ascsort"
   val escapeTab = "\t"
   val space = " "
-  
+
   /* Getting user defined attributes from config file*/
   val config: Config = ConfigFactory.load("application.conf").getConfig("userDefinedInputs")
   val mainPattern: Regex = Constants.config.getString("patternToSearch").r
@@ -58,8 +58,8 @@ object Constants {
   def generateTimeInterval(timeSplit: Array[String]): String = {
     logger.debug("the time interval set by user is " + definedTimeInterval.toString)
     val hours = timeSplit(0).toInt
-    val lowerBoundMin = (timeSplit(1).toInt / definedTimeInterval) * definedTimeInterval
-    val upperBoundMin = lowerBoundMin + definedTimeInterval
+    val lowerBoundMin = (timeSplit(1).toInt / (definedTimeInterval%60)) * (definedTimeInterval%60)
+    val upperBoundMin = lowerBoundMin + (definedTimeInterval%60)
     if(lowerBoundMin == 0 && upperBoundMin == 60){
       convertToTimeStampInterval((hours%24).toString + ":" + "00") + " " + convertToTimeStampInterval(((hours + 1)%24).toString + ":" + "00")
     }

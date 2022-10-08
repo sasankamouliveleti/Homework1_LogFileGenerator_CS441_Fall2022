@@ -7,10 +7,10 @@ import HelperUtils.Constants
 class MRTesterClass extends AnyFlatSpec with Matchers {
   behavior of "Config File and Map Reduce Output"
 
-  it should "should get correct timeInterval from Input Time for a timeInterval of 5" in {
+  it should "should get correct timeInterval from Input Time for a timeInterval of 1" in {
     val inputTime = "14:23".split(":")
     val testVal = Constants.generateTimeInterval(inputTime)
-    "14:20 14:25" shouldBe testVal
+    "14:23 14:24" shouldBe testVal
   }
 
   it should "Return correct time format when give a string time format" in {

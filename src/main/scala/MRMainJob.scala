@@ -24,6 +24,9 @@ object MRMainJob {
     arg(2) -> Output Path
   */
   def main(args: Array[String]): Unit =
+    if(args.length == 0 || args.length!=3){
+      throw new Exception("Please provide the arguments required in format - <jobnumber> <inputpath> <outputpath>")
+    }
     val conf: JobConf = new JobConf(this.getClass) /* Intialising the Job Config*/
     conf.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
 //    conf.set(Constants.noOfMappers, Constants.noOfMappersVal)
@@ -125,7 +128,7 @@ object MRMainJob {
       JobClient.runJob(conf)
 
       logger.info("*******************Exiting MRJob3Main****************")
-    } else if(args(0).toInt == 4){
+    } else if(args(0).toInt == 4) {
       logger.info("*******************Entering MRJob4Main****************")
 
       conf.setJobName(Constants.MRJob4) /* Setting the Job's name*/
@@ -146,7 +149,7 @@ object MRMainJob {
       /*Setting the input and output paths*/
       FileInputFormat.setInputPaths(conf, new Path(args(1)))
       FileOutputFormat.setOutputPath(conf, new Path(args(2)))
-      
+
       /* Running the Job Client*/
       JobClient.runJob(conf)
 
