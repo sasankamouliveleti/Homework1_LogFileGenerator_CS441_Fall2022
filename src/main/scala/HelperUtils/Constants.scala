@@ -71,4 +71,8 @@ object Constants {
       convertToTimeStampInterval((hours%24).toString + ":" + lowerBoundMin.toString) + " " + convertToTimeStampInterval((hours%24).toString + ":" + upperBoundMin.toString)
     }
   }
+  
+  def sortBasedOnSecondVal(arr: List[(String, Int)]): Array[(String, Int)] ={
+    scala.util.Sorting.stableSort(arr, (e1: (String, Int), e2: (String , Int))=> e1._2 < e2._2)
+  }
 }

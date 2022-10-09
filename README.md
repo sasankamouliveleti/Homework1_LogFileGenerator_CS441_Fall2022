@@ -101,6 +101,7 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 1 <Input Log path> <Outp
   and reduce them to (hh:mm hh:mm message level):4 by summing the values iterable</li>
 <li>The output for this task with an interval of 1 and user regex ".*" is below</li>
 
+
 ```
 15:35 15:36 INFO,1
 15:35 15:36 WARN,1
@@ -164,6 +165,7 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 2 <Input Log path> <Outp
   key values by iterating each value list for a specific key thus giving the output as descending order of error counts</li>
 <li>The output for this task with an interval of 1 and regex ".*" is below</li>
 
+
 ```
 15:38 15:39 ERROR,2
 15:37 15:38 ERROR,1  
@@ -189,6 +191,7 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 3 <Input Log path> <Outp
 <li>The Goal of this Reducer is to take the MessageLevelMapper mapper key values of format (message level):[1,1,1,1]
     and reduce them to (message level):4</li>
 <li>The output for this task with an interval of 1 is below</li>
+
 
 ```
 DEBUG,7
@@ -217,6 +220,7 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 4 <Input Log path> <Outp
    longest substring in each message level which matches the regex. The output of the reducer would be 
    message level, longest substring match, length of the substring</li>
 <li>The output for this task with an interval of 1 and regex ".*" is below</li>
+
 
 ```
 DEBUG,1vGnsU^9ofOEJ!F'YIcjlEcJYlQL+-sO0UHnYGFCbhaTLi8x0oBs$y"'X!,H,60

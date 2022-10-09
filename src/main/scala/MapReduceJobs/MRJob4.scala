@@ -67,7 +67,7 @@ object MRJob4 {
       }).toList
       /*Reference - https://stackoverflow.com/questions/2627919/scala-how-can-i-sort-an-array-of-tuples-by-their-second-element*/
       /* Sort the valuesFound list based on the second element of tuple inorder find the longest length*/
-      val sortedValues = scala.util.Sorting.stableSort(valuesFound, (e1: (String, Int), e2: (String , Int))=> e1._2 < e2._2)
+      val sortedValues = Constants.sortBasedOnSecondVal(valuesFound)
       /* Now write the result into context where the key would be the messagelevel,largest substring match and the key would be length*/
       output.collect(new Text(key.toString + ","+ sortedValues.last(0)), new IntWritable(sortedValues.last(1)))
       logger.info("*******************Exiting MaxLengthReducer-Reduce****************")
