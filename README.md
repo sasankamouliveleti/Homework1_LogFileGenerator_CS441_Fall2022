@@ -13,7 +13,7 @@
 </ol>
 <p style="font-size: 20px">The detailed explanation of the environment set up and the logic behind each implementation is below.</p>
 
-<p style="font-size: 20px">And the AWS EMR deployment video is linked <a href="">here.</a></p>
+<p style="font-size: 20px">And the AWS EMR deployment video is linked <a href="https://youtu.be/LtpW5Mbkf-I">here.</a></p>
 
 <h3>Environment and Dependencies used to set up this project</h3>
 <ul>
