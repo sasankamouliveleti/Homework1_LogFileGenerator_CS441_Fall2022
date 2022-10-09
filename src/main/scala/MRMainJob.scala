@@ -28,7 +28,7 @@ object MRMainJob {
       throw new Exception("Please provide the arguments required in format - <jobnumber> <inputpath> <outputpath>")
     }
     val conf: JobConf = new JobConf(this.getClass) /* Intialising the Job Config*/
-    //conf.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
+    conf.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
 
     /* Condition for Job1 where we compute the message level freguency in log files based user defined 
     time interval and regex*/
@@ -80,7 +80,7 @@ object MRMainJob {
       val conf1: JobConf = new JobConf(this.getClass)
 
       conf1.setJobName(Constants.MRJob2_Final) /* Setting the Job's name*/
-      //conf1.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
+      conf1.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
 
       conf1.set("mapreduce.output.textoutputformat.separator", ",") /* To generate comma separated output*/
 
