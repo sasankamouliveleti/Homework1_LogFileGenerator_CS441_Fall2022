@@ -65,7 +65,6 @@ object MRJob4 {
       val valuesFound = values.asScala.map(value =>{
         (value.toString,value.toString.length)
       }).toList
-      /*Reference - https://stackoverflow.com/questions/2627919/scala-how-can-i-sort-an-array-of-tuples-by-their-second-element*/
       /* Sort the valuesFound list based on the second element of tuple inorder find the longest length*/
       val sortedValues = Constants.sortBasedOnSecondVal(valuesFound)
       /* Now write the result into context where the key would be the messagelevel,largest substring match and the key would be length*/

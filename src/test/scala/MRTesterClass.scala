@@ -40,7 +40,11 @@ class MRTesterClass extends AnyFlatSpec with Matchers {
 
   it should "is sort happening based on second val" in {
     val exampleList: List[(String, Int)] = List(("Mouli", 5), ("EarthPlaceHere",14),("CS441Cloud", 10))
-    
     List(("Mouli", 5), ("CS441Cloud", 10), ("EarthPlaceHere",14)) shouldBe Constants.sortBasedOnSecondVal(exampleList)
+  }
+
+  it should "fetch correct intermediate filename for job2" in {
+    val fileName = Constants.output0
+    "_ascsort" shouldBe fileName
   }
 }

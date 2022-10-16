@@ -30,7 +30,7 @@ object MRMainJob {
     val conf: JobConf = new JobConf(this.getClass) /* Intialising the Job Config*/
     conf.set(Constants.fileSystemType, Constants.fileSystemTypeVal)
 
-    /* Condition for Job1 where we compute the message level freguency in log files based user defined 
+    /* Condition for Job1 where we compute the message level frequency in log files based user defined
     time interval and regex*/
     if(args(0).toInt == 1) {
       logger.info("*******************Entering MRJob1Main****************")
@@ -104,6 +104,7 @@ object MRMainJob {
       JobClient.runJob(conf1)
       logger.info("*******************Exiting MRJob2Main****************")
     } else if(args(0).toInt == 3){
+      /* Condition for Job3 where we compute the message level frequency in log files */
       logger.info("*******************Entering MRJob3Main****************")
       conf.setJobName(Constants.MRJob3) /* Setting the Job's name*/
       conf.set("mapreduce.output.textoutputformat.separator", ",") /* To generate comma separated output*/
@@ -126,6 +127,7 @@ object MRMainJob {
 
       logger.info("*******************Exiting MRJob3Main****************")
     } else if(args(0).toInt == 4) {
+      /* To find the largest number of characters in each message level which match the given regex*/
       logger.info("*******************Entering MRJob4Main****************")
 
       conf.setJobName(Constants.MRJob4) /* Setting the Job's name*/

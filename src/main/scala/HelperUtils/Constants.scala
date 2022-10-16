@@ -72,7 +72,9 @@ object Constants {
     }
   }
   
+  /* Method to sort a give list of tuples based on second element value*/
   def sortBasedOnSecondVal(arr: List[(String, Int)]): Array[(String, Int)] ={
+    /*Reference - https://stackoverflow.com/questions/2627919/scala-how-can-i-sort-an-array-of-tuples-by-their-second-element*/
     scala.util.Sorting.stableSort(arr, (e1: (String, Int), e2: (String , Int))=> e1._2 < e2._2)
   }
 }

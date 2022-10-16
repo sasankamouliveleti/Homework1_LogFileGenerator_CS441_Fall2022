@@ -31,7 +31,7 @@
 <li>When executing any command related to hadoop make sure all the daemons are running.</li>
 </ul>
 
-<p style="font-size: 16px">I have implemented Map Reduce Jobs on top of <a href="https://github.com/0x1DOCD00D/CS441_Fall2022/tree/main/LogFileGenerator" target="_blank">LogFileGenerator Project</a> provided by Prof. Mark Grechanik. The output of LogFile Generator will be the input of Map Reduce Jobs.</p>
+<p style="font-size: 16px">I have implemented Map Reduce Jobs on top of <a href="https://github.com/0x1DOCD00D/CS441_Fall2022/tree/main/LogFileGenerator" target="_blank">LogFileGenerator Project</a> provided by Prof. Mark Grechanik. The log file of LogFile Generator will be the input of Map Reduce Jobs.</p>
 
 <h3>Steps to follow to make this project run:</h3>
 <ol>
@@ -53,7 +53,7 @@ sbt test
 sbt run
 ```
 
-as there are multiple classed you will be prompted with the class to choose 1.MRMainJob 2.runLogGenerator.
+as there are multiple classes you will be prompted with the class to choose 1.MRMainJob 2.runLogGenerator.
 If you choose 1 you also have supply arguments in the following format
 
 ```
@@ -158,7 +158,7 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 2 <Input Log path> <Outp
   and reduce them to (hh:mm hh:mm ERROR):4</li>
 <li>The second mapper is <b>SortCountMapper</b></li>
 <li>We know that the output of a Map Reduce is always ascending order of the key leveraging this idea 
-   in the Map we produce the key value as (-4:hh:mm hh:mm ERROR) this gives ascending order output, the key value
+   in the Map we produce the key,value as (-4:hh:mm hh:mm ERROR) this gives ascending order output i.e by interchanging the value and key from input and multiplying the count with -1, the key value
    as example -5:hh:mm hh:mm ERROR, -3: hh:mm hh:mm ERROR, 0:hh:mm hh:mm ERROR</li>
 <li>The second reducer is <b>SortCountReducer</b></li>
 <li>This reducer takes the key as negative value and the value as time interval and message level and swaps the 
@@ -228,4 +228,15 @@ ERROR,ihu}!A2]*07}|,lc,16
 INFO,=y:wo/f;JGDxr3kYD:KMnEa=,kC5hI9oce1bg3ae1ag2J9ncg2N5oW7fq{W:|tm1u)A}GY`q;JGZ0\xG"[,82
 WARN,.0>S+>Ua\Zqk:;@m3o}_PyU{,MZ12aXX%5DlWJ<GU5V'J%d\J.0gOP8fGz;X,60
 ```
+</ol>
+
+<h3>Test cases</h3>
+<p>The test cases are written in MRTesterClass under src/test/scala and the test cases are as follows</p>
+<ol>
+<li>To get correct timeInterval from Input Time for a timeInterval of 1</li>
+<li>To return correct time format when give a string time format</li>
+<li>To match correct message level fetched</li>
+<li>The user defined config parameters should match the one in Constants file</li>
+<li>Is sort happening in list based on second val</li>
+<li>Fetch correct intermediate filename for job2</li>
 </ol>
