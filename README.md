@@ -69,7 +69,7 @@ Once the JAR is created, let us run it in Hadoop environment.
 <li>Make sure all the 4 daemons of hadoop are running and run the following command in the path of JAR file</li>
 
 ```
-hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob <MRJobNumber> <Input Log path> <Output Log path> 
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob <MRJobNumber> <Input Log path> <Output path> 
 ```
 Here the MRJobNumber can be 
 <ul>
@@ -86,7 +86,7 @@ Here the MRJobNumber can be
 <p>To perform this task run the following command</p>
 
 ```
-hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 1 <Input Log path> <Output Log path>  
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 1 <Input Log path> <Output path>  
 ```
 
 <p>Implementation of this task</p>
@@ -142,7 +142,7 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 1 <Input Log path> <Outp
 <p>To perform this task run the following command</p>
 
 ```
-hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 2 <Input Log path> <Output Log path>  
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 2 <Input Log path> <Output path>  
 ```
 
 <p>Implementation of this task</p>
@@ -178,7 +178,7 @@ hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 2 <Input Log path> <Outp
 <p>To perform this task run the following command</p>
 
 ```
-hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 3 <Input Log path> <Output Log path>  
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 3 <Input Log path> <Output path>  
 ```
 
 <p>Implementation of this task</p>
@@ -206,7 +206,7 @@ WARN,28
 <p>To perform this task run the following command</p>
 
 ```
-hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 4 <Input Log path> <Output Log path>  
+hadoop jar LogFileMap-Reduce-assembly-0.1.jar MRMainJob 4 <Input Log path> <Output path>  
 ```
 
 <p>Implementation of this task</p>
