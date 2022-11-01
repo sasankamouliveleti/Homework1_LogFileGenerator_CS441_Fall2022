@@ -5,7 +5,7 @@ Grading Evaluation:
 - only some basic map/reduce or CORBA examples from some repos are given and nothing else is done: zero grade;
 	* fully functional: -0%
 - having less than five unit and/or integration scalatests: up to 10% lost;
-	* tests present: -1%
+	* tests present: -0%
 - missing comments and explanations from your program: up to 10% lost;
 	* comments present: -0%
 - logging is not used in your programs: up to 5% lost;
@@ -27,4 +27,4 @@ Great job! Everything is thoroughly well done.
 Plus: Elaborate documentation and analysis, video, project structure.
 Minus: test suite only testing constants
 
-Final Grade: 14%
+Final Grade: 15%
